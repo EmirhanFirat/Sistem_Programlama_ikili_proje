@@ -1,0 +1,125 @@
+Sistem Programlama Kısa Sınav Ödevi - README
+
+Bu klasör, Sistem Programlama dersi kısa sınav ödevi kapsamında hazırlanan iki ayrı C programını içerir.
+
+Ödev İçeriği
+------------
+
+1. soru1_special_sum.c
+   Dinamik olarak malloc ile ayrılmış tek boyutlu bellek bloğu üzerinde N x N matris işlemleri yapar.
+   Program, matrisin ana diyagonal ve yan diyagonal elemanlarının toplamını hesaplar.
+
+2. soru2_signal_handling.c
+   Linux/Unix ortamında fork(), signal(), alarm() ve kill() fonksiyonlarını kullanarak sinyal işlemeyi gösterir.
+   Programda parent process, child process'i belirli aralıklarla durdurur, devam ettirir, SIGINT gönderir ve sonunda sonlandırır.
+
+------------------------------------------------------------
+1. Program: soru1_special_sum.c
+------------------------------------------------------------
+
+Amaç:
+Bu programda kullanıcıdan N x N boyutunda bir matris alınır. Matris malloc ile tek boyutlu bellek bloğu olarak oluşturulur.
+Program, ana diyagonal ve yan diyagonal üzerindeki elemanların toplamını hesaplar.
+
+Önemli Noktalar:
+- Matris malloc ile dinamik olarak ayrılır.
+- Matris tek bir int * pointer ile tutulur.
+- mat[i][j] veya [][] kullanımı yapılmaz.
+- Elemanlara yalnızca pointer aritmetiği ile erişilir.
+- Kullanılan erişim biçimi:
+  *(mat + i * cols + j)
+- Merkez eleman, tek boyutlu kare matrislerde iki kez sayılmaz.
+- Program sonunda ayrılan bellek free() ile serbest bırakılır.
+
+Derleme:
+gcc soru1_special_sum.c -o soru1
+
+Çalıştırma:
+./soru1
+
+Örnek Kullanım:
+Matris boyutunu giriniz (N): 2
+2 x 2 matris elemanlarini giriniz:
+Eleman [0][0]: 1
+Eleman [0][1]: 2
+Eleman [1][0]: 3
+Eleman [1][1]: 4
+Ana diyagonal ve yan diyagonal toplami: 10
+
+------------------------------------------------------------
+2. Program: soru2_signal_handling.c
+------------------------------------------------------------
+
+Amaç:
+Bu program Linux/Unix sinyal işleme mantığını göstermek için hazırlanmıştır.
+Program fork() ile bir child process oluşturur. Child process sayaç yazdırırken parent process belirli sinyaller göndererek child process'i kontrol eder.
+
+Kullanılan Sistem Çağrıları ve Fonksiyonlar:
+- fork()
+- signal()
+- alarm()
+- kill()
+- sleep()
+- wait()
+
+Kullanılan Sinyaller:
+- SIGALRM: Parent process içinde alarm zamanlayıcısı için kullanılır.
+- SIGSTOP: Child process'i durdurmak için kullanılır. Bu sinyal yakalanamaz.
+- SIGCONT: Durdurulan child process'i devam ettirmek için kullanılır.
+- SIGINT: Child process'e gönderilir ve child process tarafından yakalanıp mesaj yazdırılır.
+- SIGTERM: Program sonunda child process'i sonlandırmak için kullanılır.
+
+Önemli Not:
+SIGSTOP sinyali yakalanamaz, engellenemez ve yok sayılamaz. Bu nedenle programda SIGSTOP için handler yazılmamıştır.
+
+Derleme:
+gcc soru2_signal_handling.c -o soru2
+
+Çalıştırma:
+./soru2
+
+Örnek Çıktı:
+Çocuk sayacı: 0
+Çocuk sayacı: 1
+Çocuk sayacı: 2
+Ebeveyn: Çocuk durduruluyor...
+Ebeveyn: Çocuk devam ediyor...
+Çocuk: İşlem yeniden başlatıldı
+Çocuk sayacı: 3
+Çocuk sayacı: 4
+Çocuk sayacı: 5
+Ebeveyn: Çocuk durduruluyor...
+Ebeveyn: Çocuk devam ediyor...
+Ebeveyn: SIGINT gönderiliyor...
+Çocuk: İşlem yeniden başlatıldı
+Çocuk: SIGINT alındı ancak devam ediliyor...
+Çocuk sayacı: 6
+Ebeveyn: Çocuk sonlandırıldı.
+
+Not:
+Soru 2 çıktısında satırların sırası her çalıştırmada küçük farklılıklar gösterebilir. Bunun nedeni parent ve child process'lerin Linux scheduler tarafından zamanlanmasıdır. Önemli olan SIGSTOP, SIGCONT, SIGINT ve sonlandırma davranışlarının doğru şekilde gözlemlenmesidir.
+
+------------------------------------------------------------
+Teslim İçeriği Önerisi
+------------------------------------------------------------
+
+Teslim klasöründe aşağıdaki dosyaların bulunması önerilir:
+
+- soru1_special_sum.c
+- soru2_signal_handling.c
+- sistem_programlama_kisa_sinav_raporu.pdf
+- Benioku.txt
+
+------------------------------------------------------------
+Genel Derleme Komutları
+------------------------------------------------------------
+
+Soru 1 için:
+gcc soru1_special_sum.c -o soru1
+./soru1
+
+Soru 2 için:
+gcc soru2_signal_handling.c -o soru2
+./soru2
+
+
